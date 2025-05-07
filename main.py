@@ -4,7 +4,8 @@ import string
 from itertools import product
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 from config import TARGET_URL, OUTPUT_FILE
-from models import InsuranceData
+from logger.logger import logger
+from models.models import InsuranceData
 
 class InsuranceScraper:
     def __init__(self, output_file="insurance_data.json", concurrency=5):
@@ -44,6 +45,7 @@ class InsuranceScraper:
                 await page.wait_for_selector(error_selector, timeout=3000)  # 3s timeout
                 error_text = await page.inner_text(error_selector)
                 if "Məlumat tapılmadı" in error_text:
+                    #logger.info(f"No data for {plate_number}.")
                     print(f"No data for {plate_number}.")
                     self.results[plate_number] = "Not Found"
                     self.save_data()
@@ -68,13 +70,16 @@ class InsuranceScraper:
                             "Model": await cells[3].inner_text(),
                             "Status": await cells[4].inner_text(),
                         }
+                        #logger.info(self.results[plate_number])
                         print(self.results[plate_number])
                         break
             else:
+                #logger.info(f"No data found for {plate_number}.")
                 print(f"No data found for {plate_number}.")
                 self.results[plate_number] = "No Data"
 
         except PlaywrightTimeoutError:
+            #logger.info(f"TIMEOUT: Skipping {plate_number} due to no response.")
             print(f"TIMEOUT: Skipping {plate_number} due to no response.")
             self.results[plate_number] = "Timeout"
 
@@ -112,6 +117,7 @@ class InsuranceScraper:
             tasks = []
             for i, plate in enumerate(plates_to_scrape):
                 page = pages[i % self.concurrency]  # Assign tasks across available pages
+                #logger.info(f"Checking: {plate}")
                 print(f"Checking: {plate}")
                 tasks.append(self.scrape(plate, page))
 

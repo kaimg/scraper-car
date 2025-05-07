@@ -11,5 +11,6 @@ dependencies = [
     "playwright>=1.51.0",
     "polars>=1.25.2",
     "pyarrow>=19.0.1",
+    "pydantic>=2.10.6",
     "seaborn>=0.13.2",
 ]

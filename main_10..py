@@ -4,7 +4,7 @@ import string
 from itertools import product
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError
 from config import TARGET_URL
-from models import InsuranceData
+from models.models import InsuranceData
 
 class InsuranceScraper:
     def __init__(self, output_file="output/data_10.json", concurrency=5):

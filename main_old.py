@@ -5,7 +5,7 @@ import asyncio
 from itertools import product
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 from config import TARGET_URL, OUTPUT_FILE
-from models import InsuranceData, InsuranceDatabase
+from models.models import InsuranceData, InsuranceDatabase
 
 class InsuranceScraper:
     def __init__(self, output_file="insurance_data.json"):
