@@ -1,7 +1,7 @@
 import json
 import polars as pl
 # Load JSON data
-with open('output/tmp.json', 'r', encoding='utf-8') as file:
+with open('output/data.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 # # Sample JSON data (replace this with loading from a file)
